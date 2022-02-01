@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <item name="tv_lat" type="id"/>-->
+<!--    <item name="tv_labellat" type="id"/>-->
+<!--    <item name="tv_lon" type="id"/>-->
+<!--    <item name="tv_labellon" type="id"/>-->
+<!--    <item name="tv_labelaltitude" type="id">tv_labelaltitude</item>-->
+<!--    <item name="tv_altitude" type="id">tv_altitude</item>-->
+<!--    <item name="tv_labelaccuracy" type="id">tv_labelaccuracy</item>-->
+<!--    <item name="tv_accuracy" type="id">tv_accuracy</item>-->
+<!--    <item name="tv_labelspeed" type="id">tv_labelspeed</item>-->
+<!--    <item name="tv_speed" type="id">tv_speed</item>-->
+<!--    <item name="tv_labelsensor" type="id">tv_labelsensor</item>-->
+<!--    <item name="tv_sensor" type="id">tv_sensor</item>-->
+<!--    <item name="tv_labelupdates" type="id">tv_labelupdates</item>-->
+<!--    <item name="tv_updates" type="id">tv_updates</item>-->
+<!--    <item name="divider" type="id">divider</item>-->
+<!--    <item name="tv_lbladdress" type="id">tv_lbladdress</item>-->
+<!--    <item name="tv_address" type="id">tv_address</item>-->
+<!--    <item name="sw_gps" type="id">sw_gps</item>-->
+<!--    <item name="sw_locationsupdates" type="id">sw_locationsupdates</item>-->
+</resources>

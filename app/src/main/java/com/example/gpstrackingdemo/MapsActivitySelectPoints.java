@@ -3,6 +3,7 @@ package com.example.gpstrackingdemo;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -22,7 +24,13 @@ public class MapsActivitySelectPoints extends FragmentActivity implements OnMapR
     private GoogleMap mMap;
     private ActivityMapsSelectPointsBinding binding;
 
+    Intent intent = getIntent();
+    Bundle extras;
+    int value;
+    String type;
+
     List<LatLng> fenceLocations;
+    List<LatLng> circularFenceLocations;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +43,6 @@ public class MapsActivitySelectPoints extends FragmentActivity implements OnMapR
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_monitor);
         mapFragment.getMapAsync(this);
-
-
 
     }
 
@@ -53,6 +59,100 @@ public class MapsActivitySelectPoints extends FragmentActivity implements OnMapR
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomGesturesEnabled(true);
+        mMap.getUiSettings().setCompassEnabled(true);
+        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+
+        intent = getIntent();
+        if(intent!=null){
+            Log.d("crazy", "Intent is not null");
+            extras = intent.getExtras();
+            if(extras!=null){
+                Log.d("crazy", "Extras is not null");
+                type = extras.getString("type");
+                if(type!=null){
+                    Log.d("crazy", "Type is not null");
+                    Log.d("crazy", type);
+                } else Log.d("crazy", "Type is null LOLZ");
+            } else Log.d("crazy", "Extras is null LOLZ");
+        } else Log.d("crazy", "Intent is null LOLZ");
+
+        if (type!=null && type.equals("circle")) {
+
+            MyApplication myApplication = (MyApplication)getApplicationContext();
+            circularFenceLocations = myApplication.getCircularFenceLocations();
+            Log.d("POS", circularFenceLocations.toString());
+            for(int i=0; i<circularFenceLocations.size(); i++){
+                mMap.addMarker(new MarkerOptions().position(circularFenceLocations.get(i)).title(circularFenceLocations.get(i).toString()).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            }
+
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng point) {
+//                allPoints.add(point);
+
+                    if(circularFenceLocations.size()<=3) {
+                        circularFenceLocations.add(new LatLng(point.latitude, point.longitude));
+                        mMap.addMarker(new MarkerOptions().position(point).title(point.toString()));
+                    } else {
+                        Toast.makeText(MapsActivitySelectPoints.this, "Select 4 points only LOLZZ", Toast.LENGTH_SHORT).show();
+                    }
+//                mMap.clear();
+//                mMap.addMarker(new MarkerOptions().position(point).title(point.toString()));
+                }
+            });
+
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(@NonNull Marker marker) {
+                    LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+                    circularFenceLocations.remove(latLng);
+                    marker.remove();
+                    return false;
+                }
+            });
+
+        } else {
+
+            MyApplication myApplication = (MyApplication)getApplicationContext();
+            fenceLocations = myApplication.getFenceLocations();
+            Log.d("POS", fenceLocations.toString());
+            for(int i=0; i<fenceLocations.size(); i++){
+                mMap.addMarker(new MarkerOptions().position(fenceLocations.get(i)).title(fenceLocations.get(i).toString()));
+            }
+
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng point) {
+//                allPoints.add(point);
+
+                    if(fenceLocations.size()<=3) {
+                        fenceLocations.add(new LatLng(point.latitude, point.longitude));
+                        mMap.addMarker(new MarkerOptions().position(point).title(point.toString()));
+                    } else {
+                        Toast.makeText(MapsActivitySelectPoints.this, "Select 4 points only", Toast.LENGTH_SHORT).show();
+                    }
+//                mMap.clear();
+//                mMap.addMarker(new MarkerOptions().position(point).title(point.toString()));
+                }
+            });
+
+            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(@NonNull Marker marker) {
+                    LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
+                    fenceLocations.remove(latLng);
+                    marker.remove();
+                    return false;
+                }
+            });
+
+
+
+
+        }
         // Add a marker in Sydney and move the camera
 
 //        LatLng sydney = new LatLng(-34, 151);
@@ -60,37 +160,5 @@ public class MapsActivitySelectPoints extends FragmentActivity implements OnMapR
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
 
-        MyApplication myApplication = (MyApplication)getApplicationContext();
-        fenceLocations = myApplication.getFenceLocations();
-        Log.d("POS", fenceLocations.toString());
-        for(int i=0; i<fenceLocations.size(); i++){
-            mMap.addMarker(new MarkerOptions().position(fenceLocations.get(i)).title(fenceLocations.get(i).toString()));
-        }
-
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng point) {
-//                allPoints.add(point);
-
-                if(fenceLocations.size()<=3) {
-                    fenceLocations.add(new LatLng(point.latitude, point.longitude));
-                    mMap.addMarker(new MarkerOptions().position(point).title(point.toString()));
-                } else {
-                    Toast.makeText(MapsActivitySelectPoints.this, "Select 4 points only", Toast.LENGTH_SHORT).show();
-                }
-//                mMap.clear();
-//                mMap.addMarker(new MarkerOptions().position(point).title(point.toString()));
-            }
-        });
-
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(@NonNull Marker marker) {
-                LatLng latLng = new LatLng(marker.getPosition().latitude, marker.getPosition().longitude);
-                fenceLocations.remove(latLng);
-                marker.remove();
-                return false;
-            }
-        });
     }
 }

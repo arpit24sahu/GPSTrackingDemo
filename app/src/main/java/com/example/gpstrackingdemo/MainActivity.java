@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     Button btn_f1, btn_f2, btn_f3, btn_f4;
     Button btn_monitor, btn_selectPoints, btn_refresh;
     Button btn_newWaypoint, btn_showWayPointList, btn_showMap;
+    Button btn_stationAlarm;
     Switch sw_locationupdates, sw_gps;
 
     Boolean updateOn = false;
@@ -78,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         btn_monitor = findViewById(R.id.btn_monitor);
         btn_refresh = findViewById(R.id.btn_refresh);
         tv_wayPointCounts = findViewById(R.id.tv_countOfCrumbs);
+        btn_stationAlarm = findViewById(R.id.btn_station_alarm);
         btn_f1 = findViewById(R.id.btn_f1);
         btn_f2 = findViewById(R.id.btn_f2);
         btn_f3 = findViewById(R.id.btn_f3);
@@ -128,6 +130,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+        btn_stationAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(MainActivity.this, StationAlarm.class);
+                startActivity(i);
+            }
+        });
+
         btn_showMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     Intent i = new Intent(MainActivity.this, MapsActivitySelectPoints.class);
                     i.putExtra("index", finalT);
+                    i.putExtra("type", "circle");
                     startActivity(i);
                 }
             });

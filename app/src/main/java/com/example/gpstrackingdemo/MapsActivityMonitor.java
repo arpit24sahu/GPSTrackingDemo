@@ -1,6 +1,7 @@
 package com.example.gpstrackingdemo;
 
 import static java.lang.Math.atan2;
+import static java.lang.Math.sqrt;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -48,6 +49,7 @@ public class MapsActivityMonitor extends FragmentActivity implements OnMapReadyC
     int updateSuperSlow = 5000;
 
     Marker currentLocationMarker;
+    List<LatLng> circularFenceLocations;
 
     private GoogleMap mMap;
     private ActivityMapsMonitorBinding binding;
@@ -64,6 +66,7 @@ public class MapsActivityMonitor extends FragmentActivity implements OnMapReadyC
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map_monitor);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -137,6 +140,7 @@ public class MapsActivityMonitor extends FragmentActivity implements OnMapReadyC
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
         MyApplication myApplication = (MyApplication)getApplicationContext();
+        circularFenceLocations = myApplication.getCircularFenceLocations();
         if(myApplication.getFenceLocations().size()>=4) {
             mMap.addMarker(new MarkerOptions().position(myApplication.getLoc("nw")).title("nw"));
             mMap.addMarker(new MarkerOptions().position(myApplication.getLoc("sw")).title("sw"));
@@ -146,7 +150,14 @@ public class MapsActivityMonitor extends FragmentActivity implements OnMapReadyC
             Toast.makeText(MapsActivityMonitor.this, "Not Selected", Toast.LENGTH_SHORT).show();
         }
 
+        for(int i=0; i<circularFenceLocations.size(); i++){
+            if(circularFenceLocations.get(i)!=null){
+                mMap.addMarker(new MarkerOptions().position(circularFenceLocations.get(i)));
+            }
+        }
+
         if(currentLocation!=null){
+            List<Integer> kk = new ArrayList<Integer>();
             LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
             currentLocationMarker = mMap.addMarker(new MarkerOptions().position(latLng));
             if(currentLocationMarker != null)
@@ -156,7 +167,15 @@ public class MapsActivityMonitor extends FragmentActivity implements OnMapReadyC
                 if(isInside(latLng)) currentLocationMarker.setTitle("Inside");
                 else currentLocationMarker.setTitle("Outside");
 
-            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+            for(int i=0; i<circularFenceLocations.size(); i++){
+                if(circularFenceLocations.get(i)!=null){
+                    if(isInsideCircle(latLng, circularFenceLocations.get(i), 2)){
+                        currentLocationMarker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+                    }
+                }
+            }
+
+//            googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
         }
     }
 
@@ -197,18 +216,26 @@ public class MapsActivityMonitor extends FragmentActivity implements OnMapReadyC
         return pointIsInPoly(current,poly);
     }
 
+    public boolean isInsideCircle(LatLng current, LatLng point, double km ){
+        double dist = sqrt( Math.pow(current.latitude-point.latitude, 2) + Math.pow(current.longitude-point.longitude, 2));
+        dist*=111.11;
+        Log.d("dist", String.valueOf(dist));
+        return dist<=km;
+    }
+
     public void addLineMarkers(LatLng a, LatLng b){
-        double delta_lat = (b.latitude-a.latitude)/10;
-        double delta_lon = (b.longitude-a.longitude)/10;
-        for(int i=1; i<10; i++){
+        double delta_lat = (b.latitude-a.latitude)/3;
+        double delta_lon = (b.longitude-a.longitude)/3;
+        for(int i=1; i<3; i++){
             mMap.addMarker(new MarkerOptions().position(new LatLng(a.latitude+delta_lat*i,a.longitude+delta_lon*i)));
         }
     }
 
     public boolean pointIsInPoly(LatLng p, List<LatLng> polygon) {
+        if(p==null) return false;
         if(polygon.size()<=3) return false;
         if(polygon.get(0)==null||polygon.get(1)==null||polygon.get(2)==null||polygon.get(3)==null)
-        if(p==null) return false;
+            return false;
         boolean isInside = false;
         double minX = polygon.get(0).latitude, maxX = polygon.get(0).latitude;
         double minY = polygon.get(0).longitude , maxY = polygon.get(0).longitude;

@@ -3,4 +3,5 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_maps_select_points">MapsActivitySelectPoints</string>
     <string name="title_activity_maps_monitor">MapsActivityMonitor</string>
+    <string name="title_activity_maps_station_alarm">MapsActivityStationAlarm</string>
 </resources>

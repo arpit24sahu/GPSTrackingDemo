@@ -16,19 +16,25 @@ public class MyApplication extends Application {
 
     private List<Location> myLocations;
     private List<LatLng> fenceLocations;
+    private List<LatLng> circularFenceLocations;
 
     public List<Location> getMyLocations() {
         return myLocations;
     }
-
     public void setMyLocations(List<Location> myLocations) {
         this.myLocations = myLocations;
+    }
+
+    public List<LatLng> getCircularFenceLocations() {
+        return circularFenceLocations;
+    }
+    public void setCircularFenceLocations(List<LatLng> circularFenceLocations) {
+        this.circularFenceLocations = circularFenceLocations;
     }
 
     public List<LatLng> getFenceLocations() {
         return fenceLocations;
     }
-
     public LatLng getLoc(String dir) {
         if(fenceLocations.size()<=3) return null;
         List<LatLng> temp = fenceLocations;
@@ -59,7 +65,6 @@ public class MyApplication extends Application {
         }
 
     }
-
     public void setFenceLocations(List<LatLng> fenceLocations) {
         this.fenceLocations = fenceLocations;
     }
@@ -73,6 +78,7 @@ public class MyApplication extends Application {
         singleton = this;
         myLocations = new ArrayList<>();
         fenceLocations = new ArrayList<>();
+        circularFenceLocations = new ArrayList<>();
     }
 
 }

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".StationAlarm">
+
+    <Spinner
+        android:id="@+id/sp_stationDropdown"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_selectStation"
+        tools:layout_editor_absoluteX="1dp" />
+
+    <TextView
+        android:id="@+id/tv_selectStation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Select Station"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <Button
+        android:id="@+id/btn_trackStation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Start Tracking"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sp_stationDropdown" />
+
+    <TextView
+        android:id="@+id/tv_labelStationNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Station Number: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_trackStation" />
+
+    <TextView
+        android:id="@+id/tv_labelStationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Station Name: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_labelStationNumber" />
+
+    <TextView
+        android:id="@+id/tv_labelStationLat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Station Latitude: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_labelStationName" />
+
+    <TextView
+        android:id="@+id/tv_labelStationLong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Station Longitude: "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_labelStationLat" />
+
+    <TextView
+        android:id="@+id/tv_stationNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Station Number"
+        app:layout_constraintStart_toEndOf="@+id/tv_labelStationNumber"
+        app:layout_constraintTop_toBottomOf="@+id/btn_trackStation" />
+
+    <TextView
+        android:id="@+id/tv_stationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Station Name"
+        app:layout_constraintStart_toEndOf="@+id/tv_labelStationName"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stationNumber" />
+
+    <TextView
+        android:id="@+id/tv_stationLat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Station Lat"
+        app:layout_constraintStart_toEndOf="@+id/tv_labelStationLat"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stationName" />
+
+    <TextView
+        android:id="@+id/tv_stationLong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Station Long"
+        app:layout_constraintStart_toEndOf="@+id/tv_labelStationLong"
+        app:layout_constraintTop_toBottomOf="@+id/tv_stationLat" />
+</androidx.constraintlayout.widget.ConstraintLayout>

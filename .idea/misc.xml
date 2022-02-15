@@ -6,7 +6,10 @@
         <entry key="..\:/Users/Sahu2/AndroidStudioProjects/GPSTrackingDemo/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/Users/Sahu2/AndroidStudioProjects/GPSTrackingDemo/app/src/main/res/layout/activity_maps.xml" value="0.10572916666666667" />
         <entry key="..\:/Users/Sahu2/AndroidStudioProjects/GPSTrackingDemo/app/src/main/res/layout/activity_maps_monitor.xml" value="0.264" />
+        <entry key="..\:/Users/Sahu2/AndroidStudioProjects/GPSTrackingDemo/app/src/main/res/layout/activity_maps_select_points.xml" value="0.13489583333333333" />
+        <entry key="..\:/Users/Sahu2/AndroidStudioProjects/GPSTrackingDemo/app/src/main/res/layout/activity_maps_station_alarm.xml" value="0.13489583333333333" />
         <entry key="..\:/Users/Sahu2/AndroidStudioProjects/GPSTrackingDemo/app/src/main/res/layout/activity_show_saved_locations_list.xml" value="0.152" />
+        <entry key="..\:/Users/Sahu2/AndroidStudioProjects/GPSTrackingDemo/app/src/main/res/layout/activity_station_alarm.xml" value="0.23802083333333332" />
       </map>
     </option>
   </component>
